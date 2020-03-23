@@ -1229,14 +1229,19 @@
         centerOffset = _.options.centerMode === true ? _.slideWidth * Math.floor(_.options.slidesToShow / 2) : 0;
 
         if (_.options.swipeToSlide === true) {
+            var firstIndex = 0;
+
             _.$slideTrack.find('.slick-slide').each(function(index, slide) {
+                if (index === 0) {
+                    firstIndex = $(slide).attr('data-slick-index') || 0;
+                }
                 if (slide.offsetLeft - centerOffset + ($(slide).outerWidth() / 2) > (_.swipeLeft * -1)) {
                     swipedSlide = slide;
                     return false;
                 }
             });
 
-            slidesTraversed = Math.abs($(swipedSlide).attr('data-slick-index') - _.currentSlide) || 1;
+            slidesTraversed = Math.abs($(swipedSlide).attr('data-slick-index') - firstIndex - _.currentSlide) || 1;
 
             return slidesTraversed;
 
